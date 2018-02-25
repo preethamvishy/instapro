@@ -1,7 +1,4 @@
 const fetch = require('isomorphic-fetch')
-var request = require('request');
-var axios = require('axios');
-
 
 exports.getUserByUsername = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
