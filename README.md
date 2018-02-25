@@ -1,5 +1,7 @@
 Get the widest range of Instagram data possible without Instagram API keys or logging in. A Node.js library that supports more endpoints than similar libraries without authentication.
 
+https://www.npmjs.com/package/instapro
+
 #### Data available
 
 - Users' data
@@ -15,11 +17,11 @@ All endpoints support use of `max_id` / `after` to customize search. Endpoints a
 
 #### Usage
 
+Instapro can be installed via npm: `npm install instapro --save`
+
 `Example.js` provides examples of each supported endpoint.
 
 ```javascript
-
-
 const {
     getMediaByCode,
     getUserByUsername,
