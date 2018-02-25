@@ -29,12 +29,24 @@ exports.getMediaCommentsByCode = (
             .then(res => res.json())
     )
 
-exports.getMediaByLocation = locationId => (
-    fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1`)
-        .then(res => res.json())
-)
+exports.getMediaByLocation = (
+    locationId,
+    maxId = null) => (
+        fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1&max_id=${maxId}`)
+            .then(res => res.json())
+    )
 
-exports.getMediaByTag = tag => (
-    fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1`)
-        .then(res => res.json())
-)
+exports.getMediaByTag = (
+    tag,
+    maxId = null) => (
+        fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1&max_id=${maxId}`)
+            .then(res => res.json())
+    )
+
+exports.getUserMediaAdvanced = (
+    userId,
+    count = 50,
+    after = null) => (
+        fetch(`https://www.instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${count}&after=${after}`)
+            .then(res => res.json())
+    )
