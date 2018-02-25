@@ -50,3 +50,18 @@ exports.getUserMediaAdvanced = (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${count}&after=${after}`)
             .then(res => res.json())
     )
+
+exports.getUserFollowers = (
+    userId,
+    count = 50,
+    after = null) => (
+        fetch(`https://www.instagram.com/graphql/query/?query_id=17851374694183129&id=${userId}}&first=${count}&after=${after}`)
+            .then(res => res.json())
+    )
+exports.getUserFollowing = (
+    userId,
+    count = 50,
+    after = null) => (
+        fetch(`https://www.instagram.com/graphql/query/?query_id=17874545323001329&id=${userId}}&first=${count}&after=${after}`)
+            .then(res => res.json())
+    )
