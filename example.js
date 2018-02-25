@@ -9,7 +9,8 @@ const {
     getMediaCommentsByCode,
     getUserFollowers,
     getUserFollowing,
-    getUserMediaAdvanced
+    getUserMediaAdvanced,
+    generalSearch
   } = require('./index');
 
 getUserByUsername('instagram').then(({ user }) => {
@@ -44,4 +45,8 @@ getUserFollowing('25025320').then((list) => {
 
 getUserMediaAdvanced('25025320', 24).then((user) => {
     console.log(user)
+})
+
+generalSearch('insta').then((results) => {
+    console.log(results)
 })

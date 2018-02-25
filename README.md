@@ -1,5 +1,3 @@
-# instagram-node
-
 Get the widest range of Instagram data possible without Instagram API keys or logging in. A Node.js library that supports more endpoints than similar libraries without authentication.
 
 #### Data available
@@ -11,6 +9,7 @@ Get the widest range of Instagram data possible without Instagram API keys or lo
 - Media search by location
 - Media search by shortcode
 - Likes and comments for media by shortcode
+- General search
 
 All endpoints support use of `max_id` / `after` to customize search. Endpoints also return cursors for paginated searching.
 
@@ -63,6 +62,10 @@ getUserFollowing('25025320').then((list) => {
 
 getUserMediaAdvanced('25025320', 24).then((user) => {
     console.log(user)
+})
+
+generalSearch('insta').then((results) => {
+    console.log(results)
 })
 ```
 
