@@ -63,3 +63,8 @@ exports.getUserFollowing = (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17874545323001329&id=${userId}&first=${count}&after=${after}`)
             .then(res => res.json())
     )
+exports.generalSearch = (
+    query) => (
+        fetch(`https://www.instagram.com/web/search/topsearch/?query=${query}`)
+            .then(res => res.json())
+    )
