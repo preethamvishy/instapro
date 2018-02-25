@@ -68,3 +68,5 @@ getUserMediaAdvanced('25025320', 24).then((user) => {
 
 
 
+## License
+MIT

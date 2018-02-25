@@ -1,7 +1,7 @@
 {
   "name": "instagram-node",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Node.js library that supports the widest range of Instagram endpoints without API keys or authentication.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
