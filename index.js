@@ -5,6 +5,17 @@ exports.getUserByUsername = username => (
         .then(res => res.json())
 )
 
+exports.getUserIdFromUsername = username => (
+    fetch(`https://www.instagram.com/${username}/?__a=1`)
+        .then(res =>
+            res.json()
+                .then(user => 
+                    { 
+                        return { id: user.user.id } 
+                    })
+            )
+        )
+
 exports.getMediaByCode = shortcode => (
     fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`)
         .then(res => res.json())
@@ -68,3 +79,4 @@ exports.generalSearch = (
         fetch(`https://www.instagram.com/web/search/topsearch/?query=${query}`)
             .then(res => res.json())
     )
+
