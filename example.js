@@ -10,11 +10,16 @@ const {
     getUserFollowers,
     getUserFollowing,
     getUserMediaAdvanced,
-    generalSearch
+    generalSearch,
+    getUserIdFromUsername
   } = require('./index');
 
 getUserByUsername('instagram').then(({ user }) => {
     console.log(user.id)
+})
+
+getUserIdFromUsername('instagram').then(({ id }) => {
+    console.log(id)
 })
 
 getMediaByCode('BUu14BdBkO5').then(media => {
@@ -50,3 +55,5 @@ getUserMediaAdvanced('25025320', 24).then((user) => {
 generalSearch('insta').then((results) => {
     console.log(results)
 })
+
+

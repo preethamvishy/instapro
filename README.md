@@ -5,6 +5,7 @@ https://www.npmjs.com/package/instapro
 #### Data available
 
 - Users' data
+- Get User ID from username
 - Users' media
 - Followers and following list of any public user
 - Media search by tag
@@ -31,11 +32,17 @@ const {
     getMediaCommentsByCode,
     getUserFollowers,
     getUserFollowing,
-    getUserMediaAdvanced
+    getUserMediaAdvanced,
+    generalSearch,
+    getUserIdFromUsername
   } = require('./index');
 
 getUserByUsername('instagram').then(({ user }) => {
     console.log(user.id)
+})
+
+getUserIdFromUsername('instagram').then(({ id }) => {
+    console.log(id)
 })
 
 getMediaByCode('BUu14BdBkO5').then(media => {
