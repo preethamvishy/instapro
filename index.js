@@ -41,14 +41,14 @@ exports.getMediaCommentsByCode = (
 
 exports.getMediaByLocation = (
     locationId,
-    maxId = null) => (
+    maxId = '') => (
         fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1&max_id=${maxId}`)
             .then(res => res.json())
     )
 
 exports.getMediaByTag = (
     tag,
-    maxId = null) => (
+    maxId = '') => (
         fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1&max_id=${maxId}`)
             .then(res => res.json())
             .then(({graphql}) => graphql)
