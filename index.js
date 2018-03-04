@@ -27,14 +27,16 @@ exports.getMediaLikesByCode = (
     commentId = '') => (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17864450716183058&shortcode=${shortcode}&first=${count}&after=${commentId}`)
             .then(res => res.json())
+            .then(({data}) => data.shortcode_media)
     )
 
 exports.getMediaCommentsByCode = (
     shortcode,
     count,
-    commentId = null) => (
+    commentId = '') => (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17852405266163336&shortcode=${shortcode}&first=${count}&after=${commentId}`)
             .then(res => res.json())
+            .then(({data}) => data.shortcode_media.edge_media_to_comment)
     )
 
 exports.getMediaByLocation = (
@@ -49,6 +51,7 @@ exports.getMediaByTag = (
     maxId = null) => (
         fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1&max_id=${maxId}`)
             .then(res => res.json())
+            .then(({graphql}) => graphql)
     )
 
 exports.getUserMediaAdvanced = (
@@ -62,9 +65,10 @@ exports.getUserMediaAdvanced = (
 exports.getUserFollowers = (
     userId,
     count = 50,
-    after = null) => (
+    after = '') => (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17851374694183129&id=${userId}&first=${count}&after=${after}`)
             .then(res => res.json())
+            .then(({data}) => data.user)
     )
 
 exports.getUserFollowing = (
@@ -73,6 +77,7 @@ exports.getUserFollowing = (
     after = null) => (
         fetch(`https://www.instagram.com/graphql/query/?query_id=17874545323001329&id=${userId}&first=${count}&after=${after}`)
             .then(res => res.json())
+            .then(({data}) => data.user)            
     )
 exports.generalSearch = (
     query) => (
