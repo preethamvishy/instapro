@@ -7,18 +7,18 @@ exports.getUserByUsername = username => (
 
 exports.getUserIdFromUsername = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
-        .then(res =>
-            res.json()
-                .then(user => 
-                    { 
-                        return { id: user.user.id } 
+        .then(res => res.json()
+        .then(({user}) => { 
+                        return { id: user.id } 
                     })
             )
         )
 
 exports.getMediaByCode = shortcode => (
     fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`)
-        .then(res => res.json())
+        .then(res => res.json()
+        .then(({graphql}) => graphql)
+    )
 )
 
 exports.getMediaLikesByCode = (
