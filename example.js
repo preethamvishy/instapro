@@ -40,6 +40,10 @@ getMediaLikesByCode('BUu14BdBkO5', '50').then((media) => {
     console.log(media)
 })
 
+getMediaCommentsByCode('BUu14BdBkO5', '50').then((media) => {
+    console.log(media)
+})
+
 getUserFollowers('25025320').then((list) => {
     console.log(list)
 })
