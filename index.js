@@ -89,3 +89,8 @@ exports.generalSearch = (
             .then(res => res.json())
     )
 
+exports.getUserProfilePicture = username => (
+    fetch(`https://www.instagram.com/${username}/?__a=1`)
+        .then(res => res.json())
+        .then(({user}) => user.profile_pic_url_hd)        
+)
