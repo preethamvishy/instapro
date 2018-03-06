@@ -3,6 +3,10 @@ const fetch = require('isomorphic-fetch')
 exports.getUserByUsername = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
         .then(res => res.json())
+        .catch(err => {
+			err.message = `"${username}" not found`;
+			throw err;
+		})
 )
 
 exports.getUserIdFromUsername = username => (
