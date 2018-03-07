@@ -11,7 +11,8 @@ const {
     getUserFollowing,
     getUserMediaAdvanced,
     generalSearch,
-    getUserIdFromUsername
+    getUserIdFromUsername,
+    getUserProfilePicture
   } = require('./index');
 
 getUserByUsername('instagram').then(({ user }) => {
@@ -60,4 +61,6 @@ generalSearch('insta').then((results) => {
     console.log(results)
 })
 
-
+getUserProfilePicture('instagram').then((url) => {
+    console.log(url)
+})
