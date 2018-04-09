@@ -4,6 +4,7 @@ var cookie = 'ig_pr=2'
 exports.getUserByUsername = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
         .then(res => res.json())
+        .then(({ graphql }) => graphql)
         .catch(err => {
             err.message = `"${username}" not found`;
             throw err;
@@ -13,8 +14,8 @@ exports.getUserByUsername = username => (
 exports.getUserIdFromUsername = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
         .then(res => res.json()
-            .then(({ user }) => {
-                return { id: user.id }
+            .then(({ graphql }) => {
+                return { id: graphql.user.id }
             })
         )
 )
@@ -54,6 +55,7 @@ exports.getMediaByLocation = (
     maxId = '') => (
         fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1&max_id=${maxId}`)
             .then(res => res.json())
+            .then(({ graphql }) => graphql)            
     )
 
 exports.getMediaByTag = (
@@ -104,5 +106,5 @@ exports.generalSearch = (
 exports.getUserProfilePicture = username => (
     fetch(`https://www.instagram.com/${username}/?__a=1`)
         .then(res => res.json())
-        .then(({ user }) => user.profile_pic_url_hd)
+        .then(({ graphql }) => graphql.user.profile_pic_url_hd)
 )
