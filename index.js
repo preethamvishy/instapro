@@ -2,7 +2,9 @@ const fetch = require('isomorphic-fetch')
 var cookie = 'ig_pr=2'
 
 exports.getUserByUsername = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`)
+    fetch(`https://www.instagram.com/${username}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
         .then(res => res.json())
         .then(({ graphql }) => graphql)
         .catch(err => {
@@ -12,7 +14,9 @@ exports.getUserByUsername = username => (
 )
 
 exports.getUserIdFromUsername = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`)
+    fetch(`https://www.instagram.com/${username}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
         .then(res => res.json()
             .then(({ graphql }) => {
                 return { id: graphql.user.id }
@@ -21,7 +25,9 @@ exports.getUserIdFromUsername = username => (
 )
 
 exports.getMediaByCode = shortcode => (
-    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`)
+    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
         .then(res => res.json()
             .then(({ graphql }) => graphql)
         )
@@ -43,9 +49,7 @@ exports.getMediaCommentsByCode = (
     shortcode,
     count,
     commentId = '') => (
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17852405266163336&shortcode=${shortcode}&first=${count}&after=${commentId}`, {
-            headers: { Cookie: cookie }
-        })
+        fetch(`https://www.instagram.com/graphql/query/?query_id=17852405266163336&shortcode=${shortcode}&first=${count}&after=${commentId}`)
             .then(res => res.json())
             .then(({ data }) => data.shortcode_media.edge_media_to_comment)
     )
@@ -53,7 +57,9 @@ exports.getMediaCommentsByCode = (
 exports.getMediaByLocation = (
     locationId,
     maxId = '') => (
-        fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1&max_id=${maxId}`)
+        fetch(`https://www.instagram.com/explore/locations/${locationId}/?__a=1&max_id=${maxId}`, {
+            headers: { Cookie: cookie }
+        })
             .then(res => res.json())
             .then(({ graphql }) => graphql)            
     )
@@ -61,7 +67,9 @@ exports.getMediaByLocation = (
 exports.getMediaByTag = (
     tag,
     maxId = '') => (
-        fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1&max_id=${maxId}`)
+        fetch(`https://www.instagram.com/explore/tags/${tag}/?__a=1&max_id=${maxId}`, {
+            headers: { Cookie: cookie }
+        })
             .then(res => res.json())
             .then(({ graphql }) => graphql)
     )
@@ -99,12 +107,16 @@ exports.getUserFollowing = (
     )
 exports.generalSearch = (
     query) => (
-        fetch(`https://www.instagram.com/web/search/topsearch/?query=${query}`)
+        fetch(`https://www.instagram.com/web/search/topsearch/?query=${query}`, {
+            headers: { Cookie: cookie }
+        })
             .then(res => res.json())
     )
 
 exports.getUserProfilePicture = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`)
+    fetch(`https://www.instagram.com/${username}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
         .then(res => res.json())
         .then(({ graphql }) => graphql.user.profile_pic_url_hd)
 )
