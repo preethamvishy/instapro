@@ -1,5 +1,3 @@
-The first NodeJS Instagram library to account for Instagram's API changes in April 2018 and still works without authentication.
-
 Get the widest range of Instagram data possible without Instagram API keys or logging in. A Node.js library that supports more endpoints than similar libraries without authentication.
 
 https://www.npmjs.com/package/instapro
