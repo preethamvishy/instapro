@@ -1,28 +1,53 @@
 const fetch = require('isomorphic-fetch')
+var request = require('request');
+var cheerio = require('cheerio');
+
 var cookie = 'ig_pr=2'
 
 exports.getUserByUsername = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`, {
-        headers: { Cookie: cookie }
-    })
-        .then(res => res.json())
-        .then(({ graphql }) => graphql)
-        .catch(err => {
-            err.message = `"${username}" not found`;
-            throw err;
+    new Promise(function (resolve, reject) {
+        request(`http://www.instagram.com/` + username, function (err, resp, html) {
+            if (!err) {
+                const $ = cheerio.load(html);
+                var user = {};
+
+                $('body').children().each((i, e) => {
+                    eleHTML = $(e).html()
+                    if (eleHTML.indexOf('window._sharedData') > -1) {
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user)
+                        return false;
+                    }
+                })
+            }
+            else {
+                reject(err);
+            }
         })
-)
+    }
+))
+
 
 exports.getUserIdFromUsername = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`, {
-        headers: { Cookie: cookie }
-    })
-        .then(res => res.json()
-            .then(({ graphql }) => {
-                return { id: graphql.user.id }
-            })
-        )
-)
+    new Promise(function (resolve, reject) {
+        request(`http://www.instagram.com/` + username, function (err, resp, html) {
+            if (!err) {
+                const $ = cheerio.load(html);
+                var user = {};
+
+                $('body').children().each((i, e) => {
+                    eleHTML = $(e).html()
+                    if (eleHTML.indexOf('window._sharedData') > -1) {
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user.id)
+                        return false;
+                    }
+                })
+            }
+            else {
+                reject(err);
+            }
+        })
+    }
+))
 
 exports.getMediaByCode = shortcode => (
     fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
@@ -33,26 +58,41 @@ exports.getMediaByCode = shortcode => (
         )
 )
 
-exports.getMediaLikesByCode = (
-    shortcode,
-    count,
-    commentId = '') => (
+exports.getMediaCommentsByCode = shortcode => (
+    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
+        .then(res => res.json()
+            .then(({ graphql }) => graphql.shortcode_media.edge_media_to_comment)
+        )
+)
 
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17864450716183058&shortcode=${shortcode}&first=${count}&after=${commentId}`, {
-            headers: { Cookie: cookie }
-        })
-            .then(res => res.json())
-            .then(({ data }) => data.shortcode_media)
-    )
+exports.getTaggedUsersByCode = shortcode => (
+    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
+        .then(res => res.json()
+            .then(({ graphql }) => graphql.shortcode_media.edge_media_to_tagged_user)
+        )
+)
 
-exports.getMediaCommentsByCode = (
-    shortcode,
-    count,
-    commentId = '') => (
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17852405266163336&shortcode=${shortcode}&first=${count}&after=${commentId}`)
-            .then(res => res.json())
-            .then(({ data }) => data.shortcode_media.edge_media_to_comment)
-    )
+exports.getMediaLikesByCode = shortcode => (
+    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
+        .then(res => res.json()
+            .then(({ graphql }) => graphql.shortcode_media.edge_media_preview_like)
+        )
+)
+
+exports.getMediaOwnerByCode = shortcode => (
+    fetch(`https://www.instagram.com/p/${shortcode}/?__a=1`, {
+        headers: { Cookie: cookie }
+    })
+        .then(res => res.json()
+            .then(({ graphql }) => graphql.shortcode_media.owner)
+        )
+)
 
 exports.getMediaByLocation = (
     locationId,
@@ -61,7 +101,7 @@ exports.getMediaByLocation = (
             headers: { Cookie: cookie }
         })
             .then(res => res.json())
-            .then(({ graphql }) => graphql)            
+            .then(({ graphql }) => graphql)
     )
 
 exports.getMediaByTag = (
@@ -74,49 +114,30 @@ exports.getMediaByTag = (
             .then(({ graphql }) => graphql)
     )
 
-exports.getUserMediaAdvanced = (
-    userId,
-    count = 50,
-    after = '') => (
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=${count}&after=${after}`, {
-            headers: { Cookie: cookie }
-        })
-            .then(res => res.json())
-    )
-
-exports.getUserFollowers = (
-    userId,
-    count = 50,
-    after = '') => (
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17851374694183129&id=${userId}&first=${count}&after=${after}`, {
-            headers: { Cookie: cookie }
-        })
-            .then(res => res.json())
-            .then(({ data }) => data.user)
-    )
-
-exports.getUserFollowing = (
-    userId,
-    count = 50,
-    after = '') => (
-        fetch(`https://www.instagram.com/graphql/query/?query_id=17874545323001329&id=${userId}&first=${count}&after=${after}`, {
-            headers: { Cookie: cookie }
-        })
-            .then(res => res.json())
-            .then(({ data }) => data.user)
-    )
-exports.generalSearch = (
-    query) => (
+exports.generalSearch = (query) => (
         fetch(`https://www.instagram.com/web/search/topsearch/?query=${query}`, {
             headers: { Cookie: cookie }
         })
             .then(res => res.json())
     )
 
-exports.getUserProfilePicture = username => (
-    fetch(`https://www.instagram.com/${username}/?__a=1`, {
-        headers: { Cookie: cookie }
-    })
-        .then(res => res.json())
-        .then(({ graphql }) => graphql.user.profile_pic_url_hd)
-)
+exports.getUserProfilePicture = (username) => (
+    new Promise(function (resolve, reject) {
+        request(`http://www.instagram.com/` + username, function (err, resp, html) {
+            if (!err) {
+                const $ = cheerio.load(html);
+                var user = {};
+
+                $('body').children().each((i, e) => {
+                    eleHTML = $(e).html()
+                    if (eleHTML.indexOf('window._sharedData') > -1) {
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user.profile_pic_url_hd)
+                        return false;
+                    }
+                })
+            }
+            else
+                reject(err);
+        })
+    }
+))

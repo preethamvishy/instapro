@@ -1,6 +1,6 @@
 {
   "name": "instapro",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A Node.js library that supports the widest range of Instagram endpoints without API keys or authentication.",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/preethamvishy/instagram-node#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "es6-promise": "^4.2.4",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "request": "^2.88.0"
   }
 }
