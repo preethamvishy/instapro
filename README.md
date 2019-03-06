@@ -7,14 +7,14 @@ https://www.npmjs.com/package/instapro
 - Users' data
 - Get User ID from username
 - Users' media
-- Followers and following list of any public user
+- General search
 - Media search by tag
 - Media search by location
 - Media search by shortcode
 - Likes and comments for media by shortcode
-- General search
-
-All endpoints support use of `max_id` / `after` to customize search. Endpoints also return cursors for paginated searching.
+- Tagged users in media by shortcode
+- Media owner data by media shortcode
+- Profile picture URL from username
 
 #### Usage
 
@@ -23,6 +23,8 @@ Instapro can be installed via npm: `npm install instapro --save`
 `Example.js` provides examples of each supported endpoint.
 
 ```javascript
+
+
 const {
     getMediaByCode,
     getUserByUsername,
@@ -30,18 +32,18 @@ const {
     getMediaByTag,
     getMediaLikesByCode,
     getMediaCommentsByCode,
-    getUserFollowers,
-    getUserFollowing,
-    getUserMediaAdvanced,
     generalSearch,
-    getUserIdFromUsername
+    getUserIdFromUsername,
+    getUserProfilePicture,
+    getTaggedUsersByCode,
+    getMediaOwnerByCode
   } = require('./index');
 
-getUserByUsername('instagram').then(({ user }) => {
-    console.log(user.id)
+getUserByUsername('instagram').then((user) => {
+    console.log(user)
 })
 
-getUserIdFromUsername('instagram').then(({ id }) => {
+getUserIdFromUsername('instagram').then((id) => {
     console.log(id)
 })
 
@@ -49,32 +51,38 @@ getMediaByCode('BUu14BdBkO5').then(media => {
     console.log(media)
 })
 
+getMediaOwnerByCode('BUu14BdBkO5').then(media => {
+    console.log(media)
+})
+
 getMediaByLocation('292188415').then(({ location }) => {
+    console.log(location.id)
     console.log(location.name)
+    console.log(location.slug)
 })
 
 getMediaByTag('abcd').then((media) => {
     console.log(media)
 })
 
-getMediaLikesByCode('BUu14BdBkO5', '50').then((media) => {
+generalSearch('insta').then((results) => {
+    console.log(results)
+})
+
+getUserProfilePicture('instagram').then((url) => {
+    console.log(url)
+})
+
+getMediaLikesByCode('BUu14BdBkO5').then((media) => {
     console.log(media)
 })
 
-getUserFollowers('25025320').then((list) => {
-    console.log(list)
+getMediaCommentsByCode('BUu14BdBkO5').then((media) => {
+    console.log(media)
 })
 
-getUserFollowing('25025320').then((list) => {
-    console.log(list)
-})
-
-getUserMediaAdvanced('25025320', 24).then((user) => {
-    console.log(user)
-})
-
-generalSearch('insta').then((results) => {
-    console.log(results)
+getTaggedUsersByCode('BUu14BdBkO5').then((media) => {
+    console.log(media)
 })
 ```
 
