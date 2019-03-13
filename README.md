@@ -1,6 +1,10 @@
+# instapro 🚀
+
 Get the widest range of Instagram data possible without Instagram API keys or logging in. A Node.js library that supports more endpoints than similar libraries without authentication.
 
 https://www.npmjs.com/package/instapro
+
+![instapro](https://snag.gy/oRpmfX.jpg)
 
 #### Data available
 
