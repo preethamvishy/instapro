@@ -1,6 +1,6 @@
 {
   "name": "instapro",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A Node.js library that supports the widest range of Instagram endpoints without API keys or authentication.",
   "main": "index.js",
   "scripts": {
