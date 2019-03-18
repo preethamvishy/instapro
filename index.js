@@ -12,7 +12,7 @@ exports.getUserByUsername = username => (
                 $('body').children().each((i, e) => {
                     eleHTML = $(e).html()
                     if (eleHTML.indexOf('window._sharedData') > -1) {
-                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user);
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user);
                         return false;
                     }
                 })
@@ -35,7 +35,7 @@ exports.getUserIdFromUsername = username => (
                 $('body').children().each((i, e) => {
                     eleHTML = $(e).html();
                     if (eleHTML.indexOf('window._sharedData') > -1) {
-                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user.id);
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user.id);
                         return false;
                     }
                 })
@@ -136,7 +136,7 @@ exports.getUserProfilePicture = (username) => (
                 $('body').children().each((i, e) => {
                     eleHTML = $(e).html()
                     if (eleHTML.indexOf('window._sharedData') > -1) {
-                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"gatekeepers"')[0]).graphql.user.profile_pic_url_hd)
+                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user.profile_pic_url_hd)
                         return false;
                     }
                 })
