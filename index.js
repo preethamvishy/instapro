@@ -5,44 +5,49 @@ var cheerio = require('cheerio');
 var cookie = 'ig_pr=2';
 
 exports.getUserByUsername = username => (
-    new Promise(function (resolve, reject) {
-        request(`http://www.instagram.com/` + username, function (err, resp, html) {
-            if (!err) {
-                const $ = cheerio.load(html);
-                $('body').children().each((i, e) => {
-                    eleHTML = $(e).html()
-                    if (eleHTML.indexOf('window._sharedData') > -1) {
-                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user);
-                        return false;
-                    }
-                })
-            }
-            else {
-                reject(err);
-            }
-        })
-    })
+  new Promise(function (resolve, reject) {
+      request(`http://www.instagram.com/` + username, function (err, resp, html) {
+          if (!err) {
+            if (resp.statusCode == 200) {
+              const $ = cheerio.load(html);
+              $('body').children().each((i, e) => {
+                  eleHTML = $(e).html()
+                  if (eleHTML.indexOf('window._sharedData') > -1) {
+                      resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user);
+                      return false;
+                  }
+              })
+            } 
+            else
+              reject(resp.statusCode)
+          }
+          else
+              reject(err);
+      })
+  })
 );
-
 
 exports.getUserIdFromUsername = username => (
     new Promise(function (resolve, reject) {
         request(`http://www.instagram.com/` + username, function (err, resp, html) {
             if (!err) {
-                const $ = cheerio.load(html);
-                var user = {};
+              if (resp.statusCode == 200) {
+                  const $ = cheerio.load(html);
+                  var user = {};
 
-                $('body').children().each((i, e) => {
-                    eleHTML = $(e).html();
-                    if (eleHTML.indexOf('window._sharedData') > -1) {
-                        resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user.id);
-                        return false;
-                    }
-                })
+                  $('body').children().each((i, e) => {
+                      eleHTML = $(e).html();
+                      if (eleHTML.indexOf('window._sharedData') > -1) {
+                          resolve(JSON.parse(eleHTML.split('"ProfilePage":[')[1].split(']},"hostname"')[0]).graphql.user.id);
+                          return false;
+                      }
+                  })
+              } 
+              else
+                reject(resp.statusCode)
             }
-            else {
+            else
                 reject(err);
-            }
         });
     })
 );
@@ -131,7 +136,8 @@ exports.generalSearch = (query) => (
 exports.getUserProfilePicture = (username) => (
     new Promise(function (resolve, reject) {
         request(`http://www.instagram.com/` + username, function (err, resp, html) {
-            if (!err) {
+          if (!err) {
+            if (resp.statusCode == 200) {
                 const $ = cheerio.load(html);
                 $('body').children().each((i, e) => {
                     eleHTML = $(e).html()
@@ -142,7 +148,10 @@ exports.getUserProfilePicture = (username) => (
                 })
             }
             else
-                reject(err);
+              reject(resp.statusCode);
+          }
+          else
+              reject(err);
         });
     })
 );
